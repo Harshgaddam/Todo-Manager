@@ -1,4 +1,15 @@
 {
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "rules": {
+      "no-console": "off",
+      "no-unused-vars": "off",
+      "no-undef": "off",
+      "no-prototype-builtins": "off"
+    }
+  },
   "dependencies": {
     "ejs": "^3.1.9",
     "express": "^4.18.2",

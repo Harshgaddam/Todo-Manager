@@ -1,10 +1,15 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-undef */
 const express = require("express");
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
+const path = require("path");
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", async (request, response) => {
   const todos = await Todo.findAllTodos();
@@ -12,10 +17,6 @@ app.get("/", async (request, response) => {
     return response.render("index", { allTodos: todos });
   }
   return response.json(todos);
-});
-
-app.get("/", function (request, response) {
-  response.send("Hello World");
 });
 
 app.get("/todos", async function (_request, response) {
@@ -41,7 +42,7 @@ app.post("/todos", async function (request, response) {
       dueDate: request.body.dueDate,
       complete: request.body.complete,
     });
-    return response.json(todo);
+    return response.redirect("/");
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);

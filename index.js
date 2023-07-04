@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-undef */
 const app = require("./app");
 
 app.listen(3000, () => {

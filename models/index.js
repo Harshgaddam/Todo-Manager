@@ -1,3 +1,5 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-undef */
 /* eslint-disable quotes */
 "use strict";
 
