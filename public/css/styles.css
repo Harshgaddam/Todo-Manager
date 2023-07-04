@@ -1,8 +1,3 @@
-body {
-  font-family: "Roboto", sans-serif;
-  background-color: green;
-}
-
 .Todo-Item:hover .trash-icon {
   display: inline-block;
 }
