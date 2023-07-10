@@ -40,6 +40,24 @@
         }
       });
     }
+
+    function toggleTodo(id) {
+      fetch(`/todos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          completed: false,
+          _csrf: token
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          window.location.reload();
+        }
+      });
+    }
+
   </script>
 </head>
 
