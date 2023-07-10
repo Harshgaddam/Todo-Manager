@@ -64,7 +64,7 @@ describe("Todo Application", function () {
   //   const response = await agent.get("/todos");
   //   const parsedResponse = JSON.parse(response.text);
 
-  //   expect(parsedResponse.length).toBe(4);
+  //   expect(parsedResponse.length).toBe(3);
   //   expect(parsedResponse[3]["title"]).toBe("Buy ps3");
   // });
 

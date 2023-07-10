@@ -13,35 +13,23 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
-    //
-
     static findAllTodos() {
-      try {
-        return this.findAll();
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
+      return this.findAll();
     }
 
     static addTodo({ title, dueDate, completed }) {
-      try {
-        return this.create({
-          title: title,
-          dueDate: dueDate,
-          completed: false,
-        });
-      } catch (error) {
-        console.log(error);
-        return error;
-      }
+      return this.create({
+        title: title,
+        dueDate: dueDate,
+        completed: false,
+      });
     }
 
     markAsCompleted() {
       return this.update({ completed: true });
     }
 
-    static async dueLAter() {
+    static async dueLater() {
       const todos = await this.findAll({
         where: {
           dueDate: {
@@ -74,7 +62,13 @@ module.exports = (sequelize, DataTypes) => {
       return todos;
     }
 
-    //
+    static async remove(id) {
+      return this.destroy({
+        where: {
+          id: id,
+        },
+      });
+    }
   }
   Todo.init(
     {
