@@ -1,6 +1,8 @@
 <h5>
   <%= title %>
+    <%= data.filter(todo=> todo.completed).length %>
 </h5>
+
 <ul class="list-none">
   <% for(var i=Math.min(10, data.length - 1); i>= 0; i--) {%>
     <li class="Todo-Item">

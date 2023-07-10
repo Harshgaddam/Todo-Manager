@@ -1,6 +1,8 @@
 <h5>
   <%= title %>
+    <%= data.filter(todo=> !todo.completed).length %>
 </h5>
+
 <ul class="list-none">
   <% for(var i=0; i < data.length; i++) { if (!data[i].completed) { // Check if item is not completed %>
     <li class="Todo-Item">
