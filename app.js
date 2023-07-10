@@ -5,8 +5,12 @@ const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
+var csrf = require("csurf");
+var cookieParser = require("cookie-parser");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser("ssh! this is a secret key"));
+app.use(csrf({ cookie: true }));
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
@@ -22,6 +26,7 @@ app.get("/", async (request, response) => {
       overDue: overDue,
       dueToday: dueToday,
       dueLater: dueLater,
+      csrfToken: request.csrfToken(),
     });
   } else {
     response.json({

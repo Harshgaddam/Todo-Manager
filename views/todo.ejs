@@ -6,7 +6,7 @@
     <li class="Todo-Item">
       <div class="flex items-center w-fit px-2 py-1 rounded hover:bg-purple-50">
         <input id="todo-checkbox-<%= data[i].id %>" type="checkbox" <%=data[i].completed ? "checked" : "" %>
-        onchange = "updateTodo(<%= data[i].id %>)" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300" />
+        onclick = "updateTodo(<%= data[i].id %>)" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300" />
           <label for="todo-checkbox-<%= data[i].id %>" class="ml-2 text-sm text-gray-600 cursor-pointer">
             <%= data[i].title %>
           </label>
