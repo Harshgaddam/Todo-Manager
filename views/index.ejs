@@ -25,12 +25,13 @@
     }
 
     function updateTodo(id) {
-      fetch(`/todos/${id}/markAsCompleted`, {
+      fetch(`/todos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+          completed: true,
           _csrf: token
         }),
       }).then((response) => {
@@ -68,9 +69,10 @@
         </form>
 
         <div>
-          <%- include('todo.ejs', {title:"OverDue", data:overDue}) %>
-            <%- include('todo.ejs', {title:"Due Today", data:dueToday}) %>
-              <%- include('todo.ejs', {title:"Due Later", data:dueLater}) %>
+          <%- include('todos.ejs', {title:"OverDue", data:overDue}) %>
+            <%- include('todos.ejs', {title:"Due Today", data:dueToday}) %>
+              <%- include('todos.ejs', {title:"Due Later", data:dueLater}) %>
+                <%- include('todo.ejs', {title:"completed", data:completed})%>
         </div>
 
         <%- include ('footer.ejs') %>

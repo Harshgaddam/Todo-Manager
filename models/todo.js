@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       return this.update({ completed: true });
     }
 
+    setCompletionStatus(status) {
+      return this.update({ completed: status });
+    }
+
     static async dueLater() {
       const todos = await this.findAll({
         where: {
@@ -69,6 +73,15 @@ module.exports = (sequelize, DataTypes) => {
           id: id,
         },
       });
+    }
+
+    static async completed() {
+      const todos = await this.findAll({
+        where: {
+          completed: true,
+        },
+      });
+      return todos;
     }
   }
   Todo.init(
