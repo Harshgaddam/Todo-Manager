@@ -19,6 +19,7 @@
     "sequelize": "^6.32.1"
   },
   "devDependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "eslint": "^8.37.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
