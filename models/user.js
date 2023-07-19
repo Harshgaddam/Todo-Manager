@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable no-undef */
 /* eslint-disable quotes */
 "use strict";
@@ -19,7 +20,19 @@ module.exports = (sequelize, DataTypes) => {
     {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        unique: true,
+        validate: {
+          unique: function (mailId) {
+            return User.findOne({ where: { email: mailId } }).then((user) => {
+              if (user) {
+                throw new Error("Email already in use");
+              }
+            });
+          },
+        },
+      },
       password: DataTypes.STRING,
     },
     {

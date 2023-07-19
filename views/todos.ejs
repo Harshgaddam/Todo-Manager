@@ -2,12 +2,10 @@
 <html>
 
 <head>
-    <meta name="csrf-token" content="<%= csrfToken %>" />
     <link href="./css/styles.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
 
-        var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         function deleteTodo(id) {
             fetch(`/todos/${id}`, {
                 method: 'DELETE',
@@ -15,7 +13,6 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    _csrf: token
                 }),
             }).then((response) => {
                 if (response.ok) {
@@ -32,7 +29,6 @@
                 },
                 body: JSON.stringify({
                     completed: true,
-                    _csrf: token
                 }),
             }).then((response) => {
                 if (response.ok) {
@@ -49,7 +45,6 @@
                 },
                 body: JSON.stringify({
                     completed: false,
-                    _csrf: token
                 }),
             }).then((response) => {
                 if (response.ok) {
@@ -66,7 +61,6 @@
         <div class="col-start-3 col-span-2">
             <%- include ('header.ejs') %>
                 <form action="/todos" method="post">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <a class="text-green-600" href="/signout">Sign-out</a>
                     <div class="flex gap-2 py-4">
                         <div class="flex-auto">
@@ -77,7 +71,7 @@
                         <div class="flex-auto">
                             <input type="date" name="dueDate"
                                 class="border border-black-300 rounded text-black-600 w-full p-2 text-sm leading-4"
-                                style="padding-bottom: 9px;" />
+                                style="padding-bottom: 9px;" required />
                         </div>
 
                         <div class="flex-none">

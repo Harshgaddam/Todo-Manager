@@ -5,18 +5,16 @@ const app = express();
 const { Todo, User } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
-var csrf = require("tiny-csrf");
-var cookieParser = require("cookie-parser");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const connectEnsureLogin = require("connect-ensure-login");
 const bcrypt = require("bcrypt");
+const flash = require("connect-flash");
+const { stat } = require("fs");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser("ssh! this is a secret key"));
-app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
@@ -24,6 +22,12 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({ secret: "my-secret-key", cookie: { maxAge: 24 * 60 * 60 * 1000 } })
 );
+
+app.use(flash());
+app.use(function (request, response, next) {
+  response.locals.messages = request.flash();
+  next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,9 +40,9 @@ passport.use(
     (username, password, done) => {
       User.findOne({ where: { email: username } })
         .then(async (user) => {
-          const isValid = bcrypt.compare(password, user.password);
+          const isValid = await bcrypt.compare(password, user.password);
           if (!isValid) {
-            return done("Invalid username or password");
+            return done(null, false, { message: "Incorrect password" });
           }
           return done(null, user);
         })
@@ -66,7 +70,6 @@ passport.deserializeUser((id, done) => {
 app.get("/", async function (request, response) {
   response.render("index", {
     title: "Todo List",
-    csrfToken: request.csrfToken(),
   });
 });
 
@@ -87,7 +90,6 @@ app.get(
         dueToday: dueToday,
         dueLater: dueLater,
         completed: completed,
-        csrfToken: request.csrfToken(),
       });
     } else {
       response.json({
@@ -145,7 +147,7 @@ app.put("/todos/:id", async function (request, response) {
 
 app.delete("/todos/:id", async function (request, response) {
   try {
-    const deletedTodo = await Todo.remove(request.params.id);
+    const deletedTodo = await Todo.remove(request.params.id, request.user.id);
     return response.json({ success: true });
   } catch (error) {
     console.log(error);
@@ -156,7 +158,6 @@ app.delete("/todos/:id", async function (request, response) {
 app.get("/signup", async function (request, response) {
   response.render("signup", {
     title: "Sign Up",
-    csrfToken: request.csrfToken(),
   });
 });
 
@@ -171,25 +172,31 @@ app.post("/users", async function (request, response) {
     });
     request.login(user, (err) => {
       if (err) {
-        console.log(err);
+        response.status(422).json(err);
       }
       response.redirect("/todos");
     });
   } catch (error) {
-    console.log(error);
+    request.flash(
+      "error",
+      error.errors.map((error) => error.message)
+    );
+    response.redirect("/signup");
   }
 });
 
 app.get("/login", async function (request, response) {
   response.render("login", {
     title: "Sign-In",
-    csrfToken: request.csrfToken(),
   });
 });
 
 app.post(
   "/session",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failureFlash: true,
+  }),
   async function (request, response) {
     response.redirect("/todos");
   }

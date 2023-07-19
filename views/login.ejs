@@ -2,7 +2,6 @@
 <html>
 
 <head>
-    <meta name="csrf-token" content="<%= csrfToken %>" />
     <link href="./css/styles.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -16,7 +15,6 @@
         <div class="col-start-3 col-span-2">
             <%-include('header.ejs')-%>
                 <form action="/session" method="post">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="py-3 font-bold">
                         <label for="email">Email: </label>
                         <input type="email" name="email" class="border border-gray-300 text-gray-900 rounded p-2 w-full"
@@ -32,6 +30,13 @@
                             class="text-white bg-green-600 hover:bg-green-700 font-medium rounded px-8 py-3">Sign-in</button>
                     </div>
                 </form>
+                <% if(messages && messages.error && messages.error.length> 0) { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                        <p class="text-red-600">
+                            <%= messages.error[i] %>
+                        </p>
+                        <% } %>
+                            <% } %>
         </div>
     </div>
 </body>
