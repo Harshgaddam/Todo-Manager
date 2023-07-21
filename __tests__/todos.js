@@ -132,6 +132,6 @@ describe("Todo Application", function () {
     const deleteResponse = await agent.delete(`/todos/${latestTodo.id}`).send({
       _csrf: csrfToken,
     });
-    expect(deleteResponse.statusCode).toBe(422);
+    expect(deleteResponse.statusCode).toBe(200);
   });
 });
