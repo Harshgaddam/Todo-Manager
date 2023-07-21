@@ -11,32 +11,45 @@
 </head>
 
 <body>
-    <div class="grid grid-cols-6">
+    <div class="grid grid-cols-6 border-black-300">
         <div class="col-start-3 col-span-2">
             <%-include('header.ejs')-%>
-                <form action="/session" method="post">
-                    <div class="py-3 font-bold">
-                        <label for="email">Email: </label>
-                        <input type="email" name="email" class="border border-gray-300 text-gray-900 rounded p-2 w-full"
-                            required>
-                    </div>
-                    <div class="py-3 font-bold">
-                        <label for="password">Password: </label>
-                        <input type="password" name="password"
-                            class="border border-gray-300 text-gray-900 rounded p-2 w-full" required>
-                    </div>
-                    <div class="py-3">
-                        <button type="submit"
-                            class="text-white bg-green-600 hover:bg-green-700 font-medium rounded px-8 py-3">Sign-in</button>
-                    </div>
-                </form>
-                <% if(messages && messages.error && messages.error.length> 0) { %>
-                    <% for(var i=0; i<messages.error.length; i++) { %>
-                        <p class="text-red-600">
-                            <%= messages.error[i] %>
-                        </p>
-                        <% } %>
+                <div class="bg-gray-100 rounded p-6">
+                    <form action="/session" method="post">
+                        <div class="py-3 font-bold">
+                            <label for="email">Email: </label>
+                            <input type="email" name="email"
+                                class="border border-gray-300 text-gray-900 rounded p-2 w-full" required>
+                        </div>
+                        <div class="py-3 font-bold">
+                            <label for="password">Password: </label>
+                            <input type="password" name="password"
+                                class="border border-gray-300 text-gray-900 rounded p-2 w-full" required>
+                        </div>
+                        <div class="py-3">
+                            <button type="submit"
+                                class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded px-8 py-3 w-full">Sign-in</button>
+                        </div>
+                        <div>
+
+                            <p class="py-3 text-center "> New user? <a class="text-blue-600"
+                                    href="/signup"><strong>Sign-up</strong></a>
+                            </p>
+
+                        </div>
+                    </form>
+
+                </div>
+                <br>
+                <div class="flex justify-center">
+                    <% if(messages && messages.error && messages.error.length> 0) { %>
+                        <% for(var i=0; i<messages.error.length; i++) { %>
+                            <p class="text-red-600">
+                                <%= messages.error[i] %>
+                            </p>
                             <% } %>
+                                <% } %>
+                </div>
         </div>
     </div>
 </body>

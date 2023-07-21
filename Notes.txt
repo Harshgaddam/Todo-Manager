@@ -1,0 +1,348 @@
+Node.js is a runtime environment for writing server-side JavaScript applications. A runtime environment is the environment in which a program or application is executed.
+
+Node.js is open-source and completely free, it's used by thousands of developers around the world. Node is often used to build back-end services that communicate with client-side applications.
+
+Every browser has their own JavaScript engine that converts JavaScript into code that a computer can understand. For example, both Microsoft Edge and Chrome use V8, and Firefox uses SpiderMonkey.
+
+Node.js is a platform which is actually built on top of Chrome's JavaScript Runtime environment, which makes it blazing fast when it comes down to the performance.
+
+What you can do with Git?
+With git, you can:
+
+Record changes in your project and its files
+Revert to previous state of a file at different points in time
+Collaborate with multiple people on one codebase
+See changes over time
+Develop multiple features at once
+
+A repository, or a git project is an entire collection of files and folders associated with a project, along with each file’s revision history. The file history appears as snapshots in time called commits. Multiple commits can be organised into multiple lines of development called branches.
+
+ESLint
+
+used for JS
+to maintain quality pattern 
+to find issues and suggest fixes
+
+npm install -g ESLint@version
+eslint --init
+
+A dependency is a piece of external software that was most likely written by someone else and solves a single problem for you.
+
+The scripts property of your package.json supports many built-in scripts. These all can be executed by running npm run <stage> for short.
+
+The <stage> above refers to the pre-built stages available for package.json which we can configure or custom ones that we can create and execute using npm.
+
+Asynchronous functions are defined as those that do not block the execution of the current program.
+
+'minimist' helps us get multiple arguments from the command line to our application.
+
+In Node.js, JavaScript code runs on a single thread. This means it can handle one task at a time or a piece of code at a time. Thus, two statements in JavaScript cannot be executed in parallel. Execution happens line by line, which means each line of JavaScript code (or statements) is synchronous. But there is a way to run your code asynchronously. For example, you can use setTimeout() function, a Web API given by browser, which makes sure that your code executes after specified time (in millisecond).
+
+console.log('Hello 1');
+
+// Print message after 100 millisecond
+setTimeout(function() {
+   console.log('Hello 2');
+}, 100);
+console.log('Hello 3');
+
+After executing the above statements, browser will print Hello 1 & Hello 3 first, then it will print Hello 2.
+
+A closure is a feature in JavaScript, where an inner function has access to the outer (enclosing) function’s variables — a scope chain.
+
+The closure has three scope chains:
+
+it has access to its own scope — that means the variables defined between its curly brackets
+it has access to the outer (or parent) function’s variables
+it has access to the global variables
+
+The arguments, variables defined in parent function is captured and stored in child function, till it goes out of scope or destroyed.
+
+What is the use of console assert?
+The console. assert() method writes an error message to the console if the assertion is false. If the assertion is true, nothing happens.
+
+Unit testing is a software development process in which the minor testable parts of an application, called units, are individually and independently scrutinized for proper operation. By writing unit tests, we ensure that different system parts perform their function correctly.
+
+Integration tests ensure that different modules or units in the system work together in harmony and produce the desired output. All modules or a few other modules are combined and tested. An integration test is black-box testing, where the tests don't care for internal design.
+
+Test-driven development reverses traditional development and testing. Usually, we write code first, then write tests to verify if the feature is working properly or not. But with TDD, you will write a test first, then add code until the test passes.
+
+JEST is a JavaScript testing Framework
+
+npm install jest --save-dev // development dependency
+
+"scripts": {
+   "test": "jest", // tests will be done by jest framework
+}
+
+// to organise test cases in logical groups of tests
+describe("Tests for functions in todo.js", function () {
+   // runs before executing any test cases
+  beforeAll(() => {
+   // piece of code
+  });
+  expect(expression).toBe(expression);
+});
+
+Git comes with a way to fire custom scripts when specific actions occur. It can be helpful to do certain checks or validate some specified rules. It can either be:
+
+a client-side hook
+a server-side hook
+Client-side hooks get triggered on operations like commit and merge. In comparison, the server-side hooks get triggered on network events like receiving pushed commits.
+
+The hooks are stored in .git/hooks folder. Any named executable script will work fine. In this lesson, we will only focus on a single client-side hook.
+
+pre-commit hook
+The pre-commit hook runs just before a commit is made. If the hook returns a non-zero status, then the commit is aborted.
+
+We can use this to enforce code formatting and styling. Another example would be to limit large files from being committed into the repository.
+
+husky is used execute pre-commit hooks
+
+npm pkg set scripts.prepare="cd .. && husky install todo-cli/.husky"
+npm run prepare
+// this will download required hooks in todo-cli
+"scripts": {
+   "test": "jest",
+   "prepare": "cd .. && husky install todo-cli/.husky"
+}
+
+npx husky add .husky/pre-commit "cd todo-cli && npm test" 
+// adding pre-commit hook 
+tests by jest will be executed
+
+lint staged will run eslint and prettier 
+
+npm init @eslint/config // for eslint config
+
+npx husky add .husky/pre-commit "npx lint-staged" // to add lint-staged as pre-commit hook
+
+psql -U postgres // postgres is username
+\l // list databases
+\c database_name // to connect to database_name
+\dt // show tables
+\q // quit
+
+alter user postgres password 'changeme'; // to  change password
+
+Don't forget the semicolon (;) at the end of each command.
+
+create database name;  // creates name database
+
+POstgres connection
+
+const Sequelize = require("sequelize");
+
+const database = "todo_db";
+const username = "postgres";
+const password = "changeme";
+const sequelize = new Sequelize(database, username, password, {
+  host: "localhost",
+  dialect: "postgres",
+});
+
+const connect = async () => {
+  return sequelize.authenticate();
+}
+
+A database table is represented by a model in Sequelize. We can define a model in two equivalent ways in Sequelize.
+
+Calling sequelize.define(modelName, attributes, options)
+Extending Model and calling init(attributes, options)
+
+The types of columns can be one of the following:
+
+DataTypes.STRING for VARCHAR(255)
+DataTypes.TEXT for Text
+DataTypes.BOOLEAN for Boolean
+DataTypes.INTEGER for Integer
+DataTypes.DATE for Date with timestamp
+DataTypes.DATEONLY for Date without timestamp
+
+const { DataTypes, Model } = require("sequelize");
+const { sequelize } = require("./connectDB.js");
+
+class Todo extends Model {}
+Todo.init(
+  {
+    // Model attributes are defined here
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    dueDate: {
+      type: DataTypes.DATEONLY,
+    },
+    completed: {
+      type: DataTypes.BOOLEAN,
+    },
+  },
+  {
+    sequelize,
+  }
+);
+
+Todo.sync();
+module.exports = Todo; // create the table
+
+An IIFE (Immediately Invoked Function Expression) is a JavaScript function that runs as soon as it is defined.
+(function () {
+  // …
+})();
+
+(() => {
+  // …
+})();
+
+(async () => {
+  // …
+})();
+
+Sequelize querying
+
+Insert
+await User.create({ firstName: "Jane", lastName: "Doe" });
+
+Select
+await User.findAll({
+   where: {
+      authorId: {
+         [Op.eq]: 2
+      },
+      [Op.eq]: 3,                              
+      [Op.ne]: 20,
+      [Op.is]: null,                           
+      [Op.not]: true,                          
+      [Op.or]: [5, 6],
+      [Op.gt]: 6,                             
+      [Op.gte]: 6,                             
+      [Op.lt]: 10,                             
+      [Op.lte]: 10,                            
+      [Op.between]: [6, 10],                  
+      [Op.notBetween]: [11, 15], 
+   },
+   attributes: ['foo', 'bar']
+});
+
+await User.findOne({ where: { title: 'My Title' } });
+
+
+Update
+await User.update({ lastName: "Doe" }, {
+   where: {
+      lastName: null
+   }
+});
+
+Delete
+await User.destroy({
+   where: {
+      firstName: "Jane"
+   }
+});
+
+Bulk create
+const captains = await User.bulkCreate([
+   { name: 'Jack Sparrow' },
+   { name: 'Davy Jones' }
+]);
+
+Just like you use version control systems such as Git to manage changes in your source code, you can use migrations to keep track of changes to the database. With migrations you can transfer your existing database into another state and vice versa: Those state transitions are saved in migration files, which describe how to get to the new state and how to revert the changes in order to get back to the old state.
+
+npx sequelize-cli init
+
+This will create following folders
+
+config, contains config file, which tells CLI how to connect with database
+models, contains all models for your project
+migrations, contains all migration files
+seeders, contains all seed files
+
+npx sequelize-cli db:create
+
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+// creates model(table)
+
+npx sequelize-cli db:migrate
+// migration is created
+
+npx sequelize-cli db:migrate:undo
+//undo migration
+
+npx sequelize-cli db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js
+// undo all migrations
+
+We use database to persist data. While running tests, we might insert or delete rows from the database. So it is a common practise to use a separate database for the purpose of testing. By doing this, we can easily create or destroy tables with peace of mind.
+
+Express.js is a fast and lightweight framework, used majorly for web application development. Express is built on top of Node.js. It is designed to develop websites, web apps, & API’s easily.
+
+const express = require('express');
+const app = express();
+app.listen(3000)
+app.get('/', function (request, response) {
+  response.send('Hello World')
+})
+
+routes are used to handle/respond incoming http requests/method/end-point(API end-points)
+
+app.method(path, handler)
+
+EJS or Embedded Javascript Templating is a templating engine used by Node.js. Template engine helps to create an HTML template with minimal code. Also, it can inject data into an HTML template on the client side and produce the final HTML. EJS is a simple templating language that is used to generate HTML markup with plain JavaScript. It also helps to embed JavaScript into HTML pages.
+
+npm install ejs --save
+
+
+const express = require('express');
+const app = express();
+ 
+// Set EJS as templating engine
+app.set('view engine', 'ejs');
+
+
+app.get('/', (req, res) => {
+ 
+    // The render method takes the name of the HTML
+    // page to be rendered as input
+    // This page should be in the views folder
+    // in the root directory.
+    res.render('home'); // home.ejs 
+});
+
+<%- include('header.ejs') %>
+// this line will include any .ejs file into another ejs file
+
+app.get("/", async (request, response) => {
+  const todos = await Todo.findAllTodos();
+  if (request.accepts("html")) {
+    return response.render("index", { allTodos: todos });
+  }
+  return response.json(todos);
+});
+this method will by default render the index.ejs and display the list of todos in table in browser webpage
+
+
+MVC
+
+When working on a complex application such as this, it is advisable to use a web design pattern, which helps simplify the development process.
+MVC framework, which is short for Model-View-Controller framework. What this does, is to split the application into separate components, each of which performs a specific function.
+An MVC framework divides the application into three logical parts: the model, the view, and the controller.
+The Model
+The pattern's central component is the model. It is the data structure of the application, and is independent of the user interface. It corresponds to all the data-related logic with which the user interacts and directly manages the application's data, and logic.
+
+The View
+A view can be any type of information output representation such as a chart or diagram or even a table. Multiple views of the same data, such as a chart representing recent transactions or a list of to-dos in our case, are possible.
+
+The Controller
+The controller accepts input and converts it into the model or view commands. It serves as an interface between the model and view components, processing all business logic and incoming requests, manipulating data with using the model, and interacting with the views to render the final output.
+The View requests data to be displayed, and the request is taken by the Controller.
+The Controller gets the necessary data from the Model and modifies it based on the User's need.
+The View receives the final data from the Controller and displays the same to the User.
+The Controller is the most important part of this Interaction, and it benefits from having two-way communication with both the View and the Model.
+Benefits of MVC
+The MVC pattern provides a lot of benefits for our development.
+
+Multiple developers can work on the model, controller, and views at the same time.
+MVC allows for the logical grouping of related functions.
+Because the components are separated, future development or modification is simplified.
+Models with multiple views — Models can have multiple views. (Different applications can be built using the same Todo data structure.)
+

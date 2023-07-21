@@ -68,7 +68,7 @@ passport.deserializeUser((id, done) => {
 });
 
 app.get("/", async function (request, response) {
-  response.render("index", {
+  response.render("login", {
     title: "Todo List",
   });
 });
@@ -90,6 +90,7 @@ app.get(
         dueToday: dueToday,
         dueLater: dueLater,
         completed: completed,
+        UserName: request.user.firstName + " " + request.user.lastName,
       });
     } else {
       response.json({
@@ -219,6 +220,23 @@ app.get("/signout", async function (request, response, next) {
     }
     response.redirect("/");
   });
+});
+
+app.delete("/deleteAllUsers", async function (request, response) {
+  try {
+    const deletedUser = await User.destroy({
+      where: {},
+      truncate: true,
+    });
+    response.redirect("/");
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json(error);
+  }
+});
+
+app.get("/*", function (request, response) {
+  response.redirect("/");
 });
 
 module.exports = app;

@@ -57,38 +57,51 @@
 </head>
 
 <body>
+    <br>
     <div class="grid grid-cols-6">
         <div class="col-start-3 col-span-2">
-            <%- include ('header.ejs') %>
-                <form action="/todos" method="post">
-                    <a class="text-green-600" href="/signout">Sign-out</a>
-                    <div class="flex gap-2 py-4">
-                        <div class="flex-auto">
-                            <input type="text" name="title" placeholder="What's next?"
-                                class="border border-black-300 text-black-600 rounded w-full p-2 text-m leading-4"
-                                style="padding-bottom: 6px;" required />
-                        </div>
-                        <div class="flex-auto">
-                            <input type="date" name="dueDate"
-                                class="border border-black-300 rounded text-black-600 w-full p-2 text-sm leading-4"
-                                style="padding-bottom: 9px;" required />
-                        </div>
+            <h1 class="text-2xl font-semibold text-black-600">Hello <span class="wave">👋</span>
 
-                        <div class="flex-none">
-                            <button type="submit" class="bg-green-600 text-white px-5 py-2 rounded leading-4"
-                                style="padding-bottom: 12px;">Add</button>
-                        </div>
-                    </div>
-                </form>
+                <%=UserName%>
+            </h1>
 
+            <form action="/todos" method="post">
                 <div>
-                    <%- include('todo.ejs', {title:"Over Due", data:overDue}) %>
-                        <%- include('todo.ejs', {title:"Due Today", data:dueToday}) %>
-                            <%- include('todo.ejs', {title:"Due Later", data:dueLater}) %>
-                                <%- include('completed.ejs', {title:"Completed Items", data:completed})%>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-4 h-4 inline-block align-middle">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                    </svg>
+                    <a class="text-blue-700 inline-block align-middle" href="/signout">Sign-out</a>
                 </div>
+                <div class="flex gap-2 py-4">
+                    <div class="flex-auto">
+                        <input type="text" name="title" placeholder="What's next?"
+                            class="border border-black-300 text-black-600 rounded w-full p-2 text-m leading-4"
+                            style="padding-bottom: 6px;" required />
+                    </div>
+                    <div class="flex-auto">
+                        <input type="date" name="dueDate"
+                            class="border border-black-300 rounded text-black-600 w-full p-2 text-sm leading-4"
+                            style="padding-bottom: 9px;" required />
+                    </div>
 
-                <%- include ('footer.ejs') %>
+                    <div class="flex-none">
+                        <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded leading-4"
+                            style="padding-bottom: 12px;">Add</button>
+                    </div>
+                </div>
+            </form>
+
+            <div>
+                <%- include('todo.ejs', {title:"Over Due", data:overDue, UserName : UserName}) %>
+                    <%- include('todo.ejs', {title:"Due Today", data:dueToday, UserName : UserName}) %>
+                        <%- include('todo.ejs', {title:"Due Later", data:dueLater, UserName : UserName}) %>
+                            <%- include('completed.ejs', {title:"Completed Items", data:completed, UserName :
+                                UserName})%>
+            </div>
+
+            <%- include ('footer.ejs') %>
         </div>
 
     </div>
