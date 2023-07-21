@@ -94,7 +94,16 @@ module.exports = (sequelize, DataTypes) => {
       });
       return todos;
     }
+
+    static removeTodos(userId) {
+      return this.destroy({
+        where: {
+          userId: userId,
+        },
+      });
+    }
   }
+
   Todo.init(
     {
       title: DataTypes.STRING,

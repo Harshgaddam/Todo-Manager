@@ -40,6 +40,9 @@ passport.use(
     (username, password, done) => {
       User.findOne({ where: { email: username } })
         .then(async (user) => {
+          if (!user) {
+            return done(null, false, { message: "User not found" });
+          }
           const isValid = await bcrypt.compare(password, user.password);
           if (!isValid) {
             return done(null, false, { message: "Incorrect password" });
@@ -90,6 +93,7 @@ app.get(
         dueToday: dueToday,
         dueLater: dueLater,
         completed: completed,
+        userId: request.user.id,
         UserName: request.user.firstName + " " + request.user.lastName,
       });
     } else {
@@ -222,13 +226,11 @@ app.get("/signout", async function (request, response, next) {
   });
 });
 
-app.delete("/deleteAllUsers", async function (request, response) {
+app.delete("/deleteAccount/:id", async function (request, response) {
   try {
-    const deletedUser = await User.destroy({
-      where: {},
-      truncate: true,
-    });
-    response.redirect("/");
+    const deletedTodos = await Todo.removeTodos(request.params.id);
+    const deletedUser = await User.removeUser(request.params.id);
+    return response.json({ success: true });
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);

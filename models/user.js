@@ -15,7 +15,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
       });
     }
+    static async removeUser(userId) {
+      const user = await this.findByPk(userId);
+      return user.destroy();
+    }
   }
+
   User.init(
     {
       firstName: DataTypes.STRING,
