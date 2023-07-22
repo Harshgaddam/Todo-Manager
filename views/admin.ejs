@@ -4,16 +4,47 @@
 <html>
 
 <head>
+    <link href="./css/styles.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function deleteAccounts() {
+            fetch(`/deleteAccounts/`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({}),
+            }).then((response) => {
+                window.location.reload();
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
+
+    </script>
+
 </head>
 
 <body>
-    <h1>Admin Page</h1>
-    <form action="/deleteAllUsers" method="DELETE">
-        <button type="submit" name="deleteUsers">Delete All Users</button>
-    </form>
-    <form action="/deleteAllTodos" method="DELETE">
-        <button type="submit" name="deleteTodos">Delete All Todos</button>
-    </form>
+    <br>
+    <div class="flex justify-center">
+        <h1 class="text-2xl font-semibold text-black-600">Admin Page</h1>
+    </div>
+    <br>
+
+    <div class="py-3 flex justify-center">
+        <button id="deleteAccounts" onclick="deleteAccounts()"
+            class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded px-8 py-3 ">Delete All User
+            Accounts</button>
+    </div>
+    <div class="flex justify-center ">
+        <div>
+            <a class="text-white bg-blue-600 px-4 py-2 rounded-lg mt-2 block w-max text-center"
+                href="/signout">Sign-out</a>
+        </div>
+    </div>
+
+
 </body>
 
 </html>

@@ -102,6 +102,13 @@ module.exports = (sequelize, DataTypes) => {
         },
       });
     }
+
+    static removeAllTodos() {
+      return this.destroy({
+        where: {},
+        truncate: true,
+      });
+    }
   }
 
   Todo.init(

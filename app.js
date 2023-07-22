@@ -202,19 +202,26 @@ app.post(
     failureRedirect: "/login",
     failureFlash: true,
   }),
-  async function (request, response) {
-    response.redirect("/todos");
+  async function (request, response, next) {
+    if (
+      request.user.firstName === "Harsh" &&
+      request.user.lastName === "Vardhan" &&
+      request.user.email === "harsh@gmail.com"
+    ) {
+      response.redirect("/admin");
+    } else {
+      response.redirect("/todos");
+    }
+    next();
   }
 );
 
-app.get("/userdata", async function (request, response) {
-  try {
-    const user = await User.findAll();
-    return response.json(user);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
+app.get("/admin", async function (request, response) {
+  const users = await User.findAll();
+  response.render("admin", {
+    title: "Admin",
+    users: users,
+  });
 });
 
 app.get("/signout", async function (request, response, next) {
@@ -230,6 +237,17 @@ app.delete("/deleteAccount/:id", async function (request, response) {
   try {
     const deletedTodos = await Todo.removeTodos(request.params.id);
     const deletedUser = await User.removeUser(request.params.id);
+    return response.json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return response.status(422).json(error);
+  }
+});
+
+app.delete("/deleteAccounts", async function (request, response) {
+  try {
+    const deletedTodos = await Todo.removeAllTodos();
+    const deletedUser = await User.removeAllUsers();
     return response.json({ success: true });
   } catch (error) {
     console.log(error);

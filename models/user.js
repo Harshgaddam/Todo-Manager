@@ -3,6 +3,7 @@
 /* eslint-disable quotes */
 "use strict";
 const { Model } = require("sequelize");
+const { Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -18,6 +19,19 @@ module.exports = (sequelize, DataTypes) => {
     static async removeUser(userId) {
       const user = await this.findByPk(userId);
       return user.destroy();
+    }
+    static async removeAllUsers() {
+      return this.destroy({
+        where: {
+          firstName: {
+            [Op.ne]: "Harsh",
+            [Op.ne]: "Vardhan",
+          },
+          email: {
+            [Op.ne]: "harsh@gmail.com",
+          },
+        },
+      });
     }
   }
 
