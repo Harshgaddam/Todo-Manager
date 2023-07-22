@@ -346,3 +346,10 @@ MVC allows for the logical grouping of related functions.
 Because the components are separated, future development or modification is simplified.
 Models with multiple views — Models can have multiple views. (Different applications can be built using the same Todo data structure.)
 
+API stands for Application Programming Interface. It acts as an intermediary between two applications to talk to each other. API can be seen as a contract with which two programs can communicate and share data.
+
+While programming with Node.js, we are making use of many built in modules or external packages. In fact, we are stitching together different APIs to get our work done. If we look at our Todo sequelize model, we are exposing few methods like addTask, markAsComplete to make changes to the database. The Express.js application uses them to create a new item or mark an existing one as complete. This is another example of API.
+
+We then go further and expose web endpoints like http://localhost:3000/todos to which any HTTP client (e.g. browser, Postman etc.) can send a POST request and create a new to-do. That again is an example of API.
+
+In software development, APIs helps in building on top of other services. It can be said to be a contract which each of the building block is guaranteed to deliver
