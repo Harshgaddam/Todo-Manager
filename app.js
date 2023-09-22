@@ -134,7 +134,7 @@ app.post(
     try {
       const todo = await Todo.addTodo({
         title: request.body.title,
-        dueDate: request.body.dueDate,
+        dueDate: request.body.dueDate ? request.body.dueDate : new Date(),
         complete: request.body.complete,
         userId: request.user.id,
       });
