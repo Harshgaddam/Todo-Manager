@@ -7,7 +7,7 @@
     <script>
 
         function deleteAccount(id) {
-            fetch(`/deleteAccounts/`, {
+            fetch(`/deleteAccount/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
